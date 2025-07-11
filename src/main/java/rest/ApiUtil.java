@@ -10,13 +10,10 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
-import org.testng.Assert;
-
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
-import io.restassured.specification.RequestSpecification;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 public class ApiUtil {
 	private static final Set<Integer> usedNumbers = new HashSet<>();
@@ -378,36 +375,6 @@ public class ApiUtil {
 	}
 
 	/**
-	 * Sends a DELETE request to remove an employee record using the specified
-	 * endpoint, cookie, and request body.
-	 *
-	 * <p>
-	 * This method uses RestAssured to construct and send a DELETE request to the
-	 * given endpoint. It sets the <code>Content-Type</code> header to
-	 * <code>application/json</code>, includes a cookie named
-	 * <code>orangehrm</code>, and sends the provided request body. The response's
-	 * status code and status line are captured and returned.
-	 *
-	 * @param endpoint    the API endpoint to send the DELETE request to (relative
-	 *                    to the base URL)
-	 * @param cookieValue the value of the <code>orangehrm</code> cookie to include
-	 *                    in the request
-	 * @param body        the JSON-formatted request body specifying the employee to
-	 *                    be deleted
-	 * @return a {@link CustomResponse} object containing the response, status code,
-	 *         and status line
-	 */
-	public CustomResponse DeleteEmp(String endpoint, String cookieValue, String body) {
-		Response response = RestAssured.given().cookie("orangehrm", cookieValue)
-				.header("Content-Type", "application/json").body(body).delete(BASE_URL + endpoint);
-
-		int statusCode = response.getStatusCode();
-		String statusLine = response.getStatusLine();
-
-		return new CustomResponse(response, statusCode, statusLine);
-	}
-
-	/**
 	 * Sends a PUT request to update an existing employee status and extracts the
 	 * updated ID and name from the response.
 	 *
@@ -449,6 +416,36 @@ public class ApiUtil {
 		nameList.add((String) data.get("name"));
 
 		return new CustomResponse(response, statusCode, statusLine, idList, nameList);
+	}
+
+	/**
+	 * Sends a DELETE request to remove an employee record using the specified
+	 * endpoint, cookie, and request body.
+	 *
+	 * <p>
+	 * This method uses RestAssured to construct and send a DELETE request to the
+	 * given endpoint. It sets the <code>Content-Type</code> header to
+	 * <code>application/json</code>, includes a cookie named
+	 * <code>orangehrm</code>, and sends the provided request body. The response's
+	 * status code and status line are captured and returned.
+	 *
+	 * @param endpoint    the API endpoint to send the DELETE request to (relative
+	 *                    to the base URL)
+	 * @param cookieValue the value of the <code>orangehrm</code> cookie to include
+	 *                    in the request
+	 * @param body        the JSON-formatted request body specifying the employee to
+	 *                    be deleted
+	 * @return a {@link CustomResponse} object containing the response, status code,
+	 *         and status line
+	 */
+	public CustomResponse DeleteEmp(String endpoint, String cookieValue, String body) {
+		Response response = RestAssured.given().cookie("orangehrm", cookieValue)
+				.header("Content-Type", "application/json").body(body).delete(BASE_URL + endpoint);
+
+		int statusCode = response.getStatusCode();
+		String statusLine = response.getStatusLine();
+
+		return new CustomResponse(response, statusCode, statusLine);
 	}
 
 	/**
